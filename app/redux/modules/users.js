@@ -9,7 +9,7 @@ const FETCHING_USER_SUCCESS = 'FETCHING_USER_SUCCESS'
 // REDUCERS
 
 const initialUserState = {
-  lastUpdated: 0
+  lastUpdated: 0,
   info: {
     name: '',
     uid: '',
@@ -37,7 +37,7 @@ const initialUsersState = {
   authedId: ''
 }
 
-function users (state = initialUsersState, action) {
+export default function users (state = initialUsersState, action) {
   switch (action.type) {
     case 'AUTH_USER':
       return {
@@ -83,26 +83,36 @@ function users (state = initialUsersState, action) {
 // ACTION CREATORS
 
 export function authUser (uid) {
-  type: 'AUTH_USER',
-  uid
+  return {
+    type: 'AUTH_USER',
+    uid
+  }
 }
 
 export function unauthUser () {
-  type: 'UNAUTH_USER'
+  return {
+    type: 'UNAUTH_USER'
+  }
 }
 
 export function fetchingUser () {
-  type: 'FETCHING_USER'
+  return {
+    type: 'FETCHING_USER'
+  }
 }
 
 export function fetchingUserFailure () {
-  type: 'FETCHING_USER_FAILURE',
-  error: 'Error fetching user'
+  return {
+    type: 'FETCHING_USER_FAILURE',
+    error: 'Error fetching user'
+  }
 }
 
-export function fetchingUserSuccess (uid, user) {
-  type: 'FETCHING_USER_SUCCESS',
-  uid,
-  user,
-  lastUpdated: Date.now()
+export function fetchingUserSuccess (uid, user, timestamp) {
+  return {
+    type: 'FETCHING_USER_SUCCESS',
+    uid,
+    user,
+    timestamp
+  }
 }
