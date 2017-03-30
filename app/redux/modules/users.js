@@ -48,13 +48,13 @@ export default function users (state = initialUsersState, action) {
       return {
         ...state,
         isAuthed: true,
-        authId: action.uid
+        authedId: action.uid
       }
     case 'UNAUTH_USER':
       return {
         ...state,
         isAuthed: false,
-        authId: ''
+        authedId: ''
       }
     case 'FETCHING_USER':
       return {
@@ -72,7 +72,7 @@ export default function users (state = initialUsersState, action) {
       ? {
         ...state,
         error: '',
-        isFetching: false
+        isFetching: false  
       }
       : {
         ...state,

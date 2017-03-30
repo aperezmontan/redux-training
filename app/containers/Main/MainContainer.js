@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Navigation } from 'components'
+import { NavigationContainer } from 'containers'
 import { container, innerContainer } from './styles.css'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -38,7 +38,7 @@ class MainContainer extends Component {
       this.props.isFetching
       ? null
       : <div className={container}>
-          <Navigation isAuthed={this.props.isAuthed} />
+          <NavigationContainer />
           <div className={innerContainer}>
             {this.props.children}
           </div>
@@ -48,6 +48,6 @@ class MainContainer extends Component {
 }
 
 export default connect (
-  (state) => ({isAuthed: state.isAuthed, isFetching: state.isFetching}), 
+  ({users}) => ({isAuthed: users.isAuthed, isFetching: users.isFetching}), 
   (dispatch) => (bindActionCreators(userActionCreators, dispatch))
 )(MainContainer)

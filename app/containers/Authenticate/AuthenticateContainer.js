@@ -30,11 +30,11 @@ AuthenticateContainer.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-function mapStateToProps (state) {
-  console.log('STATE', state)
+function mapStateToProps ({users}) {
+  console.log('STATE', users)
   return {
-    isFetching: state.isFetching,
-    error: state.error
+    isFetching: users.isFetching,
+    error: users.error
   }
 }
 
