@@ -1,6 +1,8 @@
 import auth from 'helpers/auth'
 import { logout, saveUser } from 'helpers/auth'
 import { formatUserInfo } from 'helpers/utils'
+import { fetchUser } from 'helpers/api'
+
 
 // ACTIONS
 
@@ -92,21 +94,6 @@ export default function users (state = initialUsersState, action) {
 
 // ACTION CREATORS
 
-export function fetchAndHandleAuthedUser () {
-  return function (dispatch) {
-    dispatch(fetchingUser())
-    return auth ()
-    .then(({user, credential}) => {
-      const userData = user.providerData[0]
-      const userInfo = formatUserInfo(userData.displayName, userData.photoURL, userData.uid)
-      return dispatch(fetchingUserSuccess(user.uid, userInfo, Date.now()))
-    })
-    .then(({user}) => saveUser(user))
-    .then((user) => dispatch(authUser(user.uid)))
-    .catch((error) => dispatch(fetchingUserFailure(error)))
-  }
-}
-
 export function logoutAndUnauth () {
   return function (dispatch) {
     logout()
@@ -152,5 +139,31 @@ export function fetchingUserSuccess (uid, user, timestamp) {
 export function removeFetchingUser () {
   return {
     type: REMOVE_FETCHING_USER
+  }
+}
+
+// THUNKS
+
+export function fetchAndHandleAuthedUser () {
+  return function (dispatch) {
+    dispatch(fetchingUser())
+    return auth ()
+    .then(({user, credential}) => {
+      const userData = user.providerData[0]
+      const userInfo = formatUserInfo(userData.displayName, userData.photoURL, userData.uid)
+      return dispatch(fetchingUserSuccess(userInfo.uid, userInfo, Date.now()))
+    })
+    .then(({user}) => saveUser(user))
+    .then((user) => dispatch(authUser(user.uid)))
+    .catch((error) => dispatch(fetchingUserFailure(error)))
+  }
+}
+
+export function fetchAndHandleUser (uid) {
+  return function (dispatch) {
+    dispatch(fetchingUser())
+    return fetchUser(uid)
+    .then((user) => dispatch(fetchingUserSuccess(user.uid, user, Date.now())))
+    .catch((error) => dispatch(fetchingUserFailure(error)))
   }
 }

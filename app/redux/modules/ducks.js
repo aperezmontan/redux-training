@@ -1,4 +1,4 @@
-import { saveDuck } from 'helpers/api'
+import { saveDuck, fetchDuck } from 'helpers/api'
 import { closeModal } from './modal'
 import { addSingleUsersDuck } from './usersDucks'
 
@@ -14,7 +14,7 @@ const REMOVE_FETCHING = 'REMOVE_FETCHING'
 // REDUCERS
 
 const initialDucksState = {
-  isFetching: false,
+  isFetching: true,
   error: ''
 }
 
@@ -56,6 +56,16 @@ export default function ducks (state = initialDucksState, action) {
   }
 }
 
+export function fetchAndHandleDuck(duckId) {
+  return function (dispatch) {
+    dispatch(fetchingDuck())
+
+    fetchDuck(duckId)
+      .then((duck) => dispatch(fetchingDuckSuccess(duck)))
+      .catch((error) => dispatch(fetchingDuckError(error)))
+  }
+}
+
 // ACTION CREATORS
 
 function fetchingDuck () {
@@ -92,7 +102,7 @@ export function addMultipleDucks (ducks) {
   }
 }
 
-function removeFetching () {
+export function removeFetching () {
   return {
     type: 'REMOVE_FETCHING'
   }
@@ -100,7 +110,6 @@ function removeFetching () {
 
 export function duckFanout (duck) {
   return function (dispatch, getState) {
-    console.log('Current state', getState())
     const uid = getState().users.authedId
 
     saveDuck(duck)

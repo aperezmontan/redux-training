@@ -9,7 +9,6 @@ Authenticate.propTypes = {
 }
 
 export default function Authenticate ({error, isFetching, onAuth}) {
-  error = 'There was an error authenticating your account'
   return(
     <div className={centeredContainer}>
       <h1 className={largeHeader}> Authenticate </h1>

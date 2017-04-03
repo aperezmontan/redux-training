@@ -1,3 +1,5 @@
+import { usersExpirationLength, usersDucksExpirationLength } from 'config/constants'
+
 export function formatUserInfo (name, avatar, uid) {
   return {
     name,
@@ -12,6 +14,33 @@ export function formatDuck (text, { name, avatar, uid }) {
     name,
     avatar,
     uid,
+    timestamp: Date.now()
+  }
+}
+
+export function formatTimestamp (timestamp) {
+  const date = new Date(timestamp)
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+}
+
+function getMilliseconds (timestamp) {
+  return new Date().getTime() - new Date(timestamp).getTime()
+}
+
+export function staleDucks (timestamp) {
+  return getMilliseconds(timestamp) > usersDucksExpirationLength
+}
+
+export function staleUser (timestamp) {
+  return getMilliseconds(timestamp) > usersExpirationLength
+}
+
+export function formatReply ({name, uid, avatar}, replyText) {
+  return {
+    name,
+    replyText,
+    uid,
+    avatar,
     timestamp: Date.now()
   }
 }

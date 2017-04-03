@@ -1,11 +1,8 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Navigation } from 'components'
 import { connect } from 'react-redux'
 
 class NavigationContainer extends Component {
-  propTypes: {
-
-  }
   render () {
     return (
       <Navigation isAuthed={this.props.isAuthed} />

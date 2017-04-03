@@ -47,7 +47,7 @@ export default function feed (state = initialFeedState, action) {
     case ADD_NEW_DUCK_ID_TO_FEED: {
       return {
         ...state,
-        newDucksToAdd: [action.duckId, ...state.duckIds],
+        newDucksToAdd: [action.duckId, ...state.newDucksToAdd],
         newDucksAvailable: true
       }
     }
@@ -81,6 +81,7 @@ export function setAndHandleFeedListener () {
       initialFetch
         ? dispatch(settingFeedListenerSuccess(sortedIds))
         : dispatch(addNewDuckIdToFeed(sortedIds[0]))
+      initialFetch = false
     }, (error) => dispatch(settingFeedListenerError(error)))
   }
 }
@@ -92,16 +93,17 @@ function settingFeedListener () {
 }
 
 function settingFeedListenerError (error) {
+  console.warn(error)
   return {
     type: 'SETTING_FEED_LISTENER_ERROR',
     error: 'Error setting feed listener'
   }
 }
 
-function settingFeedListenerSuccess (duckids) {
+function settingFeedListenerSuccess (duckIds) {
   return {
     type: 'SETTING_FEED_LISTENER_SUCCESS',
-    duckids
+    duckIds
   }
 }
 

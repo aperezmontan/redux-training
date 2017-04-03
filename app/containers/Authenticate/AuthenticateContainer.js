@@ -31,7 +31,6 @@ AuthenticateContainer.contextTypes = {
 }
 
 function mapStateToProps ({users}) {
-  console.log('STATE', users)
   return {
     isFetching: users.isFetching,
     error: users.error

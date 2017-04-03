@@ -5,13 +5,6 @@ import { connect } from 'react-redux'
 import * as feedActionCreators from 'redux/modules/feed'
 
 class FeedContainer extends Component {
-  propTypes: {
-    newDucksAvailable: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
-    newDucksAvailable: PropTypes.bool.isRequired,
-    setAndHandleFeedListener: PropTypes.func.isRequired,
-    resetNewDucksAvailable: PropTypes.func.isRequired
-  }
   componentDidMount () {
     this.props.setAndHandleFeedListener()
   }
@@ -22,10 +15,18 @@ class FeedContainer extends Component {
   }
 }
 
-function mapStateToProps ({feed}) {
-  const { isFetching, error, newDucksAvailable } = feed
+FeedContainer.propTypes = {
+  newDucksAvailable: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  resetNewDucksAvailable: PropTypes.func.isRequired,
+  duckIds: PropTypes.array.isRequired
+}
 
+function mapStateToProps ({feed}) {
+  const { isFetching, error, newDucksAvailable, duckIds } = feed
   return {
+    duckIds,
     isFetching, 
     error, 
     newDucksAvailable
